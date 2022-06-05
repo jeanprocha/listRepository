@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react'
-import { useApi } from '../../useApi';
+import { useApi } from '../../services/useApi';
 import { User, Repos } from '../../types';
 
 export type UserContextType = {
@@ -8,7 +8,8 @@ export type UserContextType = {
     loading: Boolean;
     getUser: (userName: string) => Promise<boolean>;
     getListRepos: (userName: string) => Promise<boolean>;
-    stopLoading: () => void;
+    stopLoading: (state: boolean) => void;
+    setNewUser: (newUser: User | null, newRepos: Repos[]) => void;
 }
 
 export const UserContext = createContext<UserContextType>(null!)
@@ -41,12 +42,18 @@ export const UserProvider = ({ children }: {children: JSX.Element}) => {
         return false
     }
 
-    const stopLoading = () => {
-        setLoading(false)
+    const stopLoading = (state: boolean) => {
+        setLoading(state)
+        
+    }
+
+    const setNewUser = (newUser: User | null, newRepos: Repos[]) => {
+        setUser(newUser)
+        setListRepos(newRepos)
     }
    
     return (
-        <UserContext.Provider value={{ user, listRepos, loading, getUser, getListRepos, stopLoading }}>
+        <UserContext.Provider value={{ user, listRepos, loading, getUser, getListRepos, setNewUser, stopLoading }}>
             {children}
         </UserContext.Provider>
     )
