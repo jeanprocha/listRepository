@@ -9,7 +9,7 @@ import { User, Repos} from '../../types'
 import { GET_USER } from '../../services/apollo';
 
 const SearchUser = () => {
-    const [userName, setUserName] = useState<string>('jeanprocha')
+    const [userName, setUserName] = useState<string>('')
     const { user, getUser, getListRepos, stopLoading, setNewUser } = useContext(UserContext)
 
     const [funcao, { data }] = useLazyQuery(GET_USER, {
